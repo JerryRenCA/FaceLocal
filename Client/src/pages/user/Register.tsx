@@ -1,68 +1,91 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import PersonIcon from "@mui/icons-material/Person";
-import Navbar from "../../components/navbar/Navbar";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+// import Component1 from 'Aa'
+import FieldContent, {
+  T_fieldConent,
+  T_userInfo,
+} from "./components/FieldContent";
+import FieldContentTag from "./components/FieldContent";
 import validatorjs from "validator";
-// import * as validate from 'validate-typescript'
+// type
+
 //Style Components
 const Container = tw.div`mt-4`;
 const Wrapper = tw.div`mx-auto w-[45rem] border-2 rounded-lg px-6 pt-12`;
-
+//Data
+const fields: T_fieldConent[] = [
+  {
+    fieldname: "name",
+    fieldInfo: "- Name will be displayed on your profile.",
+    fieldErr: ["- Name length between 6 to 20."],
+    fieldVisibleSettable: false,
+    icon: PersonIcon,
+     updateUserInfo:(prev:T_userInfo,newVal:string):T_userInfo=>{return{...prev,name:newVal}},
+     validateUserInfo:(val:string)=>validatorjs.isLength(val, { max: 20, min: 6 })
+  },
+  {
+    fieldname: "email",
+    fieldInfo: "- Email will be used to login in.",
+    fieldErr: ["- Email address is invalid."],
+    fieldVisibleSettable: false,
+    icon: EmailIcon,
+     updateUserInfo:(prev:T_userInfo,newVal:string):T_userInfo=>{return{...prev,email:newVal}},
+     validateUserInfo:(val:string)=>validatorjs.isLength(val, { max: 20, min: 6 })
+  },
+  {
+    fieldname: "password",
+    fieldInfo: "",
+    fieldErr:[ 
+    "- password  is invalid",
+     "- At least 8"],
+    fieldVisibleSettable: true,
+    icon: LockIcon,
+     updateUserInfo:(prev:T_userInfo,newVal:string):T_userInfo=>{return{...prev,password:newVal}},
+     validateUserInfo:(val:string)=>validatorjs.isLength(val, { max: 20, min: 6 })
+  },
+  {
+    fieldname: "rePassword",
+    fieldInfo: "",
+    fieldErr: ["- Retyped password  is not matching."],
+    fieldVisibleSettable: true,
+    icon: LockIcon,
+     updateUserInfo:(prev:T_userInfo,newVal:string):T_userInfo=>{return{...prev,rePassword:newVal}},
+     validateUserInfo:(val:string)=>validatorjs.isLength(val, { max: 20, min: 6 })
+  },
+];
 //Module
 const Register = () => {
+  const [userInfo, setUserInfo] = useState<T_userInfo>({
+    name: "",
+    email: "",
+    password: "",
+    rePassword: "",
+  });
+  // const refs = useRef(Array.from({length: fields.length}, a => createRef<HTMLLabelElement>()));
+
   return (
     <Container>
       <Wrapper>
         <div className="text-3xl">Register</div>
-        <Field />
+        {
+          fields.map((fieldContent,id)=>{
+            return(
+              <FieldContentTag
+              key={fieldContent.fieldname}
+              fieldContent={fieldContent}
+              setUserInfo={setUserInfo}
+              userInfo={userInfo}
+
+            />
+            )
+          })
+        }
+        {/* <Component1/> */}
       </Wrapper>
     </Container>
   );
 };
 export default Register;
-
-//Another Module Component
-const FieldTag = tw.div`border-[1px] h-13 rounded-lg flex items-center`;
-const InputTag = tw.input`grow outline-none`;
-//Module
-const Field = () => {
-  const [data, setData] = useState("");
-  //   const schema={data:validate.Email()}
-  const [err, setErr] = useState(false);
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData(e.target.value);
-    
-  };
-  const lblRef = useRef<HTMLLabelElement>(null);
-  useEffect(() => {
-    if (lblRef.current) {
-      lblRef.current.style.position = data ? "relative" : "absolute";
-      lblRef.current.style.fontSize = data ? "0.75rem" : "1rem";
-    }
-    setErr(!validatorjs.isEmail(data));
-  }, [data]);
-  return (
-    <div className="my-4 ">
-      <FieldTag>
-        <PersonIcon className="align-middle px-1" fontSize="large" />
-        <div className="block">
-          <div className="flex flex-col" aria-required>
-            <label
-              className="text-base duration-200"
-              htmlFor="email"
-              ref={lblRef}
-            >
-              Email
-            </label>
-            <InputTag id="email" onChange={handleInput} />
-          </div>
-        </div>
-      </FieldTag>
-      {err && (
-        <div className="text-sm pl-1 pt-1 text-red-600 ">
-          Please input email address
-        </div>
-      )}
-    </div>
-  );
-};

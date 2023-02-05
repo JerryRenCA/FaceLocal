@@ -6,7 +6,7 @@ const Container=tw.div`h-[20rem] bg-black bg-bg-hot bg-cover bg-no-repeat bg-cen
 const Banner = () => {
     return (
         <Container>
-            Banner
+            
         </Container>
     )
 }

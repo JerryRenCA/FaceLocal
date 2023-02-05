@@ -15,8 +15,6 @@ const MainWrapper = tw.div`grid grid-cols-4 w-4/5`;
 const Home = () => {
   return (
     <Container>
-      <Notification />
-      <Navbar />
       <Banner/>
       <SelectorBar/>
       <div className="flex justify-center">
