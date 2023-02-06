@@ -1,3 +1,5 @@
+const { purple } = require('@mui/material/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -24,6 +26,14 @@ module.exports = {
       },
       animation:{
         'blink':'blink 1s steps(2) infinite'
+      },
+      backgroundColor:{ 
+        'primary-purple': purple[800],
+        'primary-purple-lighter': purple[700]
+      },
+      color:{
+        'primary-purple': purple[600],
+        'primary-purple-lighter': purple[500]
       }
     },
   },

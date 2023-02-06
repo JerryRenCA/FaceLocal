@@ -26,6 +26,7 @@ const Home = () => {
           <RightSidePanel />
         </MainWrapper>
       </div>
+      
     </Container>
   );
 };

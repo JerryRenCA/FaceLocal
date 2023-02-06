@@ -6,15 +6,15 @@ import SearchBox from "../searchbox/SearchBox";
 
 
 //Style Components
-const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 bg-black text-white`;
+const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
 const Wrapper = tw.div`flex gap-4 justify-between w-[60rem] my-4  items-center`;
-const LogoTag = tw.div`text-3xl font-satisfy font-bold text-purple-500`;
+const LogoTag = tw.div`text-3xl font-satisfy font-bold text-purple-400`;
 //Module
 const Navbar = () => {
   return (
     <Container>
       <Wrapper>
-        <LogoTag>StoreForm</LogoTag>
+        <LogoTag> <Link to='/'>StoreForm</Link> </LogoTag>
         <SearchBox/>
         <LocationBox />
         <LinkBox />
@@ -27,7 +27,7 @@ export default Navbar;
 const LinkBox = () => {
   return (
     <div>
-      <Link to='Register' className=" cursor-pointer hover:text-purple-600">Register</Link>
+      <Link to='Register' className=" cursor-pointer hover:text-purple-500">Register</Link>
       <span>/</span>
       <button>Sign In</button>
       <span>/</span>

@@ -3,7 +3,7 @@ import tw from 'tailwind-styled-components'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 //Styled Components
-const Container=tw.div`flex cursor-pointer hover:text-purple-900 text-xl`
+const Container=tw.div`flex cursor-pointer hover:text-purple-500 text-xl`
 const LocInfo=tw.div`pl-2 pr-6`
 // Module
 const LocationBox = () => {

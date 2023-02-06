@@ -6,12 +6,12 @@ const LinkBtn=tw.button`w-[10rem] hover:text-red-500`
 //Module
 const SelectorBar = () => {
   return (
-    <Container className="bg-black text-white align-middle font-playfair text-xl border-y-[1px] border-gray-800">
+    <Container className=" align-middle font-satisfy text-2xl font-bold border-y-[1px] border-gray-800 ">
       <div className="flex justify-center h-full">
-        <LinkBtn>Hot</LinkBtn>
-        <LinkBtn>Happening</LinkBtn>
-        <LinkBtn>InComing</LinkBtn>
-        <LinkBtn>Alert</LinkBtn>
+        <LinkBtn>hot</LinkBtn>
+        <LinkBtn>happening</LinkBtn>
+        <LinkBtn>incoming</LinkBtn>
+        <LinkBtn>alert</LinkBtn>
       </div>
     </Container>
   );
