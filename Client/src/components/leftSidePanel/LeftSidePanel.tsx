@@ -7,8 +7,8 @@ const LeftSidePanel = () => {
   const list = ["Products", "Event","Products", "Event"];
   return (
     <Container>
-      {list.map((it) => (
-        <AListItem title={it} />
+      {list.map((it,id) => (
+        <AListItem title={it} key={id}/>
       ))}
     </Container>
   );

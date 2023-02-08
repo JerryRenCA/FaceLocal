@@ -8,7 +8,9 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'bg-hot': "url('/images/the local.jpg')",
+        'bg-puppy-2': "url('/images/puppy-2.jpg')",
+        'bg-puppy-1': "url('/images/puppy-1.jpg')",
+        'bg-local': "url('/images/the local.jpg')",
         'footer-texture': "url('/img/footer-texture.png')",
       },
       fontFamily:{

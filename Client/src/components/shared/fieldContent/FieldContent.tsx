@@ -4,14 +4,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material";
-import validatorjs from "validator";
+
+import { T_userInfo } from "../../../pages/user/authBLogic";
+import { ValidatePassword, ValidateRePassword } from "./FieldValidate";
 // types
-export type T_userInfo = {
-    name: string;
-    email: string;
-    password: string;
-    rePassword: string;
-  }
+
 export type T_fieldConent={
      fieldname:string,
      fieldInfo:string,
@@ -19,13 +16,13 @@ export type T_fieldConent={
      fieldVisibleSettable:boolean,
     icon:OverridableComponent<SvgIconTypeMap<{}, "svg">> & {muiName: string;},
      updateUserInfo:(prev:T_userInfo,newVal:string)=>T_userInfo,
-   validateUserInfo:(val:string)=>boolean
+   validateField:(val:string)=>boolean
   }
 //Another Module Component - Name
 const FieldTag = tw.div`border-[1px] h-14 rounded-lg flex items-center justify-between p-1`;
 const InputTag = tw.input`grow outline-none`;
 //Module
-const FieldContentTag = ({
+const FieldContentTag =({
     fieldContent,
   userInfo,
   setUserInfo,
@@ -53,7 +50,7 @@ const lblRef2 = useRef<HTMLLabelElement>(null);
       lblRef2.current.style.color = userInfo[key] ? "gray" : "black";
     }
     if(fieldContent.fieldname!='rePassword')
-    setErr(userInfo[key]!=''&&!fieldContent.validateUserInfo(userInfo[key]));
+    setErr(userInfo[key]!=''&&!fieldContent.validateField(userInfo[key]));
     else
     setErr(userInfo[key]!=''&&userInfo.password!==userInfo.rePassword);
   }, [userInfo]);
@@ -98,49 +95,6 @@ const lblRef2 = useRef<HTMLLabelElement>(null);
   );
 };
 
-const ValidatePassword = ({ passwordVal }: { passwordVal: string }) => {
-  const fieldErr = [
-    " At least 8 characters",
-    " 1 uppercase",
-    " 1 lowercase",
-    " 1 symbol",
-    " 1 number",
-  ];
-  const upperCaseRegex = /^[A-Z]$/;
-  const lowerCaseRegex = /^[a-z]$/;
-  const symbolRegex = /^[-#!$@£%^&*()_+|~=`{}\[\]:";'<>?,.\/ ]$/;
-  const numberRegex = /^[0-9]$/;
-  const regRzlt = [false, false, false, false];
-  Array.from(passwordVal).forEach((char) => {
-    regRzlt[0] ||= upperCaseRegex.test(char);
-    regRzlt[1] ||= lowerCaseRegex.test(char);
-    regRzlt[2] ||= symbolRegex.test(char);
-    regRzlt[3] ||= numberRegex.test(char);
-  });
-  const checkVal = [validatorjs.isLength(passwordVal, { min: 8 }), ...regRzlt];
-  return (
-    <div>
-      {fieldErr.map((err, id) => {
-        const color=checkVal[id] ? " text-green-600":"text-red-600"
-        const marker=checkVal[id] ?'✓':'✘'
-        return <div><div className={color}>{marker} {err}</div> </div>;
-      })}
-    </div>
-  );
-};
 
-const ValidateRePassword = ({ passwordVal,rePasswordVal }: { passwordVal: string,rePasswordVal:string }) => {
-  const fieldErr=["- Passwords do NOT match"]
-  const rzlt = [passwordVal===rePasswordVal];
-  return (
-    <div>
-      {fieldErr.map((err, id) => {
-        const color=rzlt[id] ? " text-green-600":"text-red-600"
-        const marker=rzlt[id] ?'✓':'✘'
-        return <div><div className={color}>{marker} {err}</div> </div>;
-      })}
-    </div>
-  );
-};
 export default FieldContentTag
 

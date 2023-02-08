@@ -1,16 +1,18 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { createRef, useContext, useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
-// import Component1 from 'Aa'
+import { useNavigate } from "react-router-dom";
 import FieldContent, {
   T_fieldConent,
-  T_userInfo,
-} from "./components/FieldContent";
-import FieldContentTag from "./components/FieldContent";
+} from "../../components/shared/fieldContent/FieldContent";
+import FieldContentTag from "../../components/shared/fieldContent/FieldContent";
 import validatorjs from "validator";
-// type
+import { Link } from "react-router-dom";
+import { register, T_userInfo, validateUserInfo} from "./authBLogic";
+import { authContext } from "../../contexts/authContext/AuthProvider";
+import { validateUserInfo_email, validateUserInfo_name, validateUserInfo_password } from "../../components/shared/fieldContent/FieldValidate";
 
 //Style Components
 const Container = tw.div`pt-4 py-4 `;
@@ -26,8 +28,7 @@ const fields: T_fieldConent[] = [
     updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
       return { ...prev, name: newVal };
     },
-    validateUserInfo: (val: string) =>
-      validatorjs.isLength(val, { max: 20, min: 6 }),
+    validateField: validateUserInfo_name
   },
   {
     fieldname: "email",
@@ -38,7 +39,7 @@ const fields: T_fieldConent[] = [
     updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
       return { ...prev, email: newVal };
     },
-    validateUserInfo: (val: string) => validatorjs.isEmail(val),
+    validateField: validateUserInfo_email
   },
   {
     fieldname: "password",
@@ -49,7 +50,7 @@ const fields: T_fieldConent[] = [
     updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
       return { ...prev, password: newVal };
     },
-    validateUserInfo: (val: string) => validatorjs.isStrongPassword(val),
+    validateField:validateUserInfo_password
   },
   {
     fieldname: "rePassword",
@@ -60,7 +61,7 @@ const fields: T_fieldConent[] = [
     updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
       return { ...prev, rePassword: newVal };
     },
-    validateUserInfo: () => true,
+    validateField: () => true,
   },
 ];
 //Module
@@ -71,8 +72,21 @@ const Register = () => {
     password: "",
     rePassword: "",
   });
+  const [submitEnabled,setSubmitEnabled]=useState(false)
+  const [registerErr,setRegisterErr]=useState(false)
   // const refs = useRef(Array.from({length: fields.length}, a => createRef<HTMLLabelElement>()));
-
+  useEffect(()=>{setSubmitEnabled(validateUserInfo(userInfo))},[userInfo])
+  const navigator=useNavigate()
+  const userAuthCtx=useContext(authContext)
+  const handleSubmit=async()=>{
+    const registerRzlt= await register(userInfo)
+    if(registerRzlt.uid) navigator('/')
+    else{
+      setRegisterErr(true)
+    }
+    userAuthCtx.login({uid:registerRzlt.uid,name:userInfo.name})
+  }
+  
   return (
     <Container>
       <Wrapper>
@@ -87,15 +101,18 @@ const Register = () => {
             />
           );
         })}
+        {registerErr&&(<div>{registerErr}</div>)}
         <div className="text-sm text-center hover:[&>a]:text-purple-600">
           By clicking Register, you agree to our <a href="">Terms of Use</a> and 
           <a href=""> Privacy Policy</a>
         </div>
-        <button className=" bg-primary-purple w-full my-2 h-12 rounded-lg text-white hover:bg-primary-purple-lighter">
+        <button className=" disabled:text-gray-400 bg-primary-purple w-full my-2 h-12 rounded-lg text-white hover:bg-primary-purple-lighter"
+        disabled={!submitEnabled}
+        onClick={handleSubmit}>
           Create Account
         </button>
         <div className="text-sm text-center mb-4">
-        Already have an account? <a href="" className="hover:text-purple-600">Sign in!</a> 
+        Already have an account? <Link to='/login' className="hover:text-purple-600">Sign in!</Link>
         </div>
       </Wrapper>
     </Container>
