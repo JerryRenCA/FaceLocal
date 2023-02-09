@@ -5,44 +5,44 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { SvgIconTypeMap } from "@mui/material";
 
-import { T_userInfo } from "../../../pages/user/authBLogic";
 import { ValidatePassword, ValidateRePassword } from "./FieldValidate";
-// types
 
-export type T_fieldConent={
+// types
+export type T_fieldBase={name:string}
+export type T_fieldContent={
      fieldname:string,
      fieldInfo:string,
      fieldErr:string[],
      fieldVisibleSettable:boolean,
     icon:OverridableComponent<SvgIconTypeMap<{}, "svg">> & {muiName: string;},
-     updateUserInfo:(prev:T_userInfo,newVal:string)=>T_userInfo,
+     updateField:<T extends T_fieldBase>(prev:T,newVal:string)=>T,
    validateField:(val:string)=>boolean
   }
 //Another Module Component - Name
 const FieldTag = tw.div`border-[1px] h-14 rounded-lg flex items-center justify-between p-1`;
 const InputTag = tw.input`grow outline-none`;
 //Module
-const FieldContentTag =({
+const FieldContentTag =<T extends T_fieldBase>({
     fieldContent,
   userInfo,
   setUserInfo,
 
 }: {
-    fieldContent:T_fieldConent
-  userInfo: T_userInfo;
-  setUserInfo: React.Dispatch<React.SetStateAction<T_userInfo>>,
+    fieldContent:T_fieldContent
+  userInfo: T;
+  setUserInfo: React.Dispatch<React.SetStateAction<T>>,
 
 }) => {
 
   const [err, setErr] = useState(false);
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInfo((prev) => {
-      return fieldContent.updateUserInfo(prev,e.target.value)
+      return fieldContent.updateField(prev,e.target.value)
     });
   };
 const lblRef2 = useRef<HTMLLabelElement>(null);
   useEffect(() => {
-    const key=fieldContent.fieldname as keyof T_userInfo
+    const key=fieldContent.fieldname as keyof T
     // console.log(key,userInfo[key],lblRef.current?.textContent)
     if (lblRef2.current) {
       lblRef2.current.style.position = userInfo[key] ? "relative" : "absolute";
@@ -50,9 +50,9 @@ const lblRef2 = useRef<HTMLLabelElement>(null);
       lblRef2.current.style.color = userInfo[key] ? "gray" : "black";
     }
     if(fieldContent.fieldname!='rePassword')
-    setErr(userInfo[key]!=''&&!fieldContent.validateField(userInfo[key]));
-    else
-    setErr(userInfo[key]!=''&&userInfo.password!==userInfo.rePassword);
+    setErr(userInfo[key]!=''&&!fieldContent.validateField(userInfo[key] as string));
+    else{
+      setErr(userInfo[key]!=''&&userInfo["password" as keyof T]!==userInfo["rePassword" as keyof T]);}
   }, [userInfo]);
  const [pwdVisible,setPwdVisible]=useState(false)
 
@@ -84,8 +84,8 @@ const lblRef2 = useRef<HTMLLabelElement>(null);
           </div>
           {err && (
           <div className="text-sm pl-4 pt-1 text-red-600">
-            {fieldContent.fieldname==="password"&&<ValidatePassword passwordVal={userInfo.password}/>}
-            {fieldContent.fieldname==="rePassword"&&<ValidateRePassword passwordVal={userInfo.password} rePasswordVal={userInfo.rePassword}/>}
+            {fieldContent.fieldname==="password"&&<ValidatePassword passwordVal={userInfo["password" as keyof T] as string}/>}
+            {fieldContent.fieldname==="rePassword"&&<ValidateRePassword passwordVal={userInfo["password" as keyof T] as string} rePasswordVal={userInfo["rePassword" as keyof T] as string}/>}
             {fieldContent.fieldname!=="password"&&fieldContent.fieldname!=="rePassword"&&fieldContent.fieldErr.map((str,id)=>{return(<div key={id}>{str}</div>)})}
           </div>
           )}

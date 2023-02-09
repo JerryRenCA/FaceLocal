@@ -30,15 +30,6 @@ type T_userCollection = {
 };
 
 
-export const validateUserInfo = (userInfo: T_userInfo): boolean => {
-  if (!validateUserInfo_name(userInfo.name)) return false;
-  if (!validateUserInfo_email(userInfo.email)) return false;
-  if (!validateUserInfo_password(userInfo.password)) return false;
-  if (!validateUserInfo_rePassword(userInfo.password, userInfo.rePassword))
-    return false;
-  return true;
-};
-
 export const login = async (userInfo: T_userInfo):Promise<T_userLocalStorage> => {
   try {
     const userCredential: UserCredential = await signInWithEmailAndPassword(

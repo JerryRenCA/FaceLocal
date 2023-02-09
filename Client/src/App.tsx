@@ -36,7 +36,7 @@ function App() {
         </Route>
         <Route path='/event'>
           <Route index element={<ListEvent/>}/>
-          <Route path='new' element={<NewEvent/>}/>
+          <Route path='post' element={<NewEvent/>}/>
         </Route>
       </Routes>
       <Footer/>

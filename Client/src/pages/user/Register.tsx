@@ -5,27 +5,28 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
 import FieldContent, {
-  T_fieldConent,
+  T_fieldBase,
+  T_fieldContent,
 } from "../../components/shared/fieldContent/FieldContent";
 import FieldContentTag from "../../components/shared/fieldContent/FieldContent";
 import validatorjs from "validator";
 import { Link } from "react-router-dom";
-import { register, T_userInfo, validateUserInfo} from "./authBLogic";
+import { register, T_userInfo} from "./authBLogic";
 import { authContext } from "../../contexts/authContext/AuthProvider";
-import { validateUserInfo_email, validateUserInfo_name, validateUserInfo_password } from "../../components/shared/fieldContent/FieldValidate";
+import { validateUserInfo_email, validateUserInfo_name, validateUserInfo_password, validateUserInfo_rePassword } from "../../components/shared/fieldContent/FieldValidate";
 
 //Style Components
 const Container = tw.div`pt-4 py-4 `;
 const Wrapper = tw.div`my-4 mx-auto w-[45rem] border-2 rounded-lg px-6 pt-12 bg-white text-black`;
 //Data
-const fields: T_fieldConent[] = [
+const fields: T_fieldContent[] = [
   {
     fieldname: "name",
     fieldInfo: "- Name will be displayed on your profile.",
     fieldErr: ["- Name length between 6 to 20."],
     fieldVisibleSettable: false,
     icon: PersonIcon,
-    updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
+    updateField: <T extends T_fieldBase>(prev: T, newVal: string): T => {
       return { ...prev, name: newVal };
     },
     validateField: validateUserInfo_name
@@ -36,7 +37,7 @@ const fields: T_fieldConent[] = [
     fieldErr: ["- Email address is invalid."],
     fieldVisibleSettable: false,
     icon: EmailIcon,
-    updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
+    updateField: <T extends T_fieldBase>(prev: T, newVal: string): T => {
       return { ...prev, email: newVal };
     },
     validateField: validateUserInfo_email
@@ -47,7 +48,7 @@ const fields: T_fieldConent[] = [
     fieldErr: [],
     fieldVisibleSettable: true,
     icon: LockIcon,
-    updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
+    updateField: <T extends T_fieldBase>(prev: T, newVal: string): T => {
       return { ...prev, password: newVal };
     },
     validateField:validateUserInfo_password
@@ -58,12 +59,21 @@ const fields: T_fieldConent[] = [
     fieldErr: [],
     fieldVisibleSettable: true,
     icon: LockIcon,
-    updateUserInfo: (prev: T_userInfo, newVal: string): T_userInfo => {
+    updateField: <T extends T_fieldBase>(prev: T, newVal: string): T => {
       return { ...prev, rePassword: newVal };
     },
     validateField: () => true,
   },
 ];
+
+ const validateUserInfo = (userInfo: T_userInfo): boolean => {
+  if (!fields[0].validateField(userInfo.name)) return false;
+  if (!fields[1].validateField(userInfo.email)) return false;
+  if (!fields[2].validateField(userInfo.password)) return false;
+  if (!validateUserInfo_rePassword(userInfo.password, userInfo.rePassword))
+    return false;
+  return true;
+};
 //Module
 const Register = () => {
   const [userInfo, setUserInfo] = useState<T_userInfo>({

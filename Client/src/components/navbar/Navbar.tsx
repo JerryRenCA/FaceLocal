@@ -8,17 +8,19 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import { Avatar, Button, ButtonGroup, IconButton, Tooltip } from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
 //Style Components
 const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
 const Wrapper = tw.div`flex gap-4 justify-between w-[60rem] my-4  items-center`;
-const LogoTag = tw.div`text-3xl font-satisfy font-extrabold text-purple-900 `;
+const LogoTag = tw.div`text-3xl font-satisfy font-extrabold text-blue-900 `;
 //Module
 const Navbar = () => {
   return (
     <Container>
       <Wrapper>
-        <LogoTag style={{ textShadow: "#FC0 1px 0 10px" }}>
+        <LogoTag style={{ textShadow: "#069 1px 0 10px" }}>
           <Link to="/">StoreForm</Link>
         </LogoTag>
         <SearchBox />
@@ -31,52 +33,55 @@ const Navbar = () => {
 export default Navbar;
 
 const LinkBox = () => {
-  const userCxt = useContext(authContext);
+  const authCxt = useContext(authContext);
 
   const handleLogout = () => {
-    userCxt.logout();
+    authCxt.logout();
   };
   return (
     <div>
-      {!userCxt.state.isLogin && (
+      {!authCxt.state.isLogin && (
         <>
-          <Link
-            to="register"
-            className=" cursor-pointer hover:text-purple-500 px-2 font-bold"
-          >
-            Register
-          </Link>
-          <span>/</span>
-          <Link
-            to="login"
-            className=" cursor-pointer hover:text-purple-500 px-2 font-bold"
-          >
-            Sign In
-          </Link>
+          <ButtonGroup variant="text" aria-label="text button group">
+            <Button>
+              <Link
+                to="register"
+                className="  hover:text-purple-500 font-bold"
+              >
+                Register
+              </Link>
+            </Button>
+            <Button>
+              <Link
+                to="login"
+                className="  hover:text-purple-500 font-bold"
+              >
+                Sign In
+              </Link>
+            </Button>
+          </ButtonGroup>
         </>
       )}
-      {userCxt.state.isLogin && (
-        <div>
-          <button className="px-4 hover:text-purple-800 font-semibold" title="profile">
-            {userCxt.state.user.name}
-            <AccountBoxOutlinedIcon />
-          </button>
-          <Link
-            to="/event/new"
-            className="  h-6 w-6 text-center text-black rounded-md py-0 inline-block hover:text-purple-800"
-            title="post"
-          >
-            <FileUploadOutlinedIcon/>
-          </Link>
-
-          <button
-            onClick={handleLogout}
-            title="logout"
-            className=" hover:text-purple-800 px-4 font-bold"
-          >
+      {authCxt.state.isLogin && (
+        <ButtonGroup variant="text" aria-label="text button group">
+          <Button>
+            <Link to="/user/profile" className="  hover:text-purple-500 ">
+              <Avatar sx={{ bgcolor: deepPurple[500],width: 28, height: 28 }}>{authCxt.state.user.name[0]}</Avatar>
+            </Link>
+          </Button>
+          <Button>
+            <Link to="/event/post" className="  hover:text-purple-500 ">
+              <Tooltip title='Post new event' arrow>
+              <FileUploadOutlinedIcon />
+              </Tooltip>
+            </Link>
+          </Button>
+          <Button onClick={handleLogout} className="  hover:text-purple-500 ">
+          <Tooltip title='Exit' arrow>
             <LogoutOutlinedIcon />
-          </button>
-        </div>
+            </Tooltip>
+          </Button>
+        </ButtonGroup>
       )}
     </div>
   );
