@@ -33,6 +33,7 @@ function App() {
           <Route index element={<Home/>}/>
           <Route path="login" element={<Signin/>}/>
           <Route path="register" element={<Register/>}/>
+          <Route path="user/profile" element={<Home/>}/>
         </Route>
         <Route path='/event'>
           <Route index element={<ListEvent/>}/>
