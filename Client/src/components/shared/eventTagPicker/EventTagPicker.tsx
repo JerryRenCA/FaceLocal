@@ -20,10 +20,9 @@ export default function EventTagPicker() {
       renderOption={(props, option, { selected }) => (
         <li {...props}>
           <Checkbox
-           
             icon={icon}
             checkedIcon={checkedIcon}
-            style={{ marginRight: 8 }}
+            style={{ marginRight: 8}}
             checked={selected}
           />
           {option.title}
@@ -31,7 +30,7 @@ export default function EventTagPicker() {
       )}
       style={{ width: 500 }}
       renderInput={(params) => (
-        <TextField {...params} label="Description tags" placeholder="" />
+        <TextField {...params} label="Description tags" placeholder=""/>
       )}
     />
    

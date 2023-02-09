@@ -14,7 +14,7 @@ import tw from "tailwind-styled-components";
 import AccessAlarmOutlinedIcon from "@mui/icons-material/AccessAlarmOutlined";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import styled from "@emotion/styled";
-import { format, addDays, differenceInDays,getHours } from "date-fns";
+import { format, addDays,addHours, differenceInDays,getHours } from "date-fns";
 //type
 type T_timePicker = {
   day: number;
@@ -39,7 +39,7 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 //Functions
 const dayStrToNow = (aDate: Date,wantStr:boolean=true) => {
   let dateStr = format(aDate, "yyyy / MM / dd");
-  const today = addDays(new Date(), 0);
+  const today = addHours(new Date(), -1);
   const dayBetween = differenceInDays(aDate,today);
   switch (dayBetween) {
     case 0:

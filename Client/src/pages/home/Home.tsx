@@ -10,7 +10,7 @@ import SelectorBar from "../../components/selectorBar/SelectorBar";
 
 //Styled Components
 const Container = tw.div``;
-const MainWrapper = tw.div`grid grid-cols-4 w-4/5`;
+const MainWrapper = tw.div`grid grid-cols-10 w-4/5`;
 //Module
 const Home = () => {
   return (
@@ -20,7 +20,7 @@ const Home = () => {
       <div className="flex justify-center">
         <MainWrapper>
           <LeftSidePanel />
-          <div className=" col-span-2">
+          <div className=" col-span-8">
             <MainPanel />
           </div>
           <RightSidePanel />

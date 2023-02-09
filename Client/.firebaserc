@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "face-local-web-front-end",
+    "dev": "face-local-web-front-end"
+  },
+  "targets": {},
+  "etags": {}
+}

@@ -1,9 +1,13 @@
 import { AccountCircle, PhotoCamera } from "@mui/icons-material";
 import {
   Box,
+  FormControl,
   IconButton,
   ImageList,
   ImageListItem,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -18,6 +22,7 @@ import { DateValueType } from "react-tailwindcss-datepicker/dist/types";
 import DatePicker from "../../components/shared/datePicker/DatePicker";
 import EventTagPicker from "../../components/shared/eventTagPicker/EventTagPicker";
 import LocationPicker from "../../components/shared/locationPicker/LocationPicker";
+import ValSelector from "../../components/shared/valSelector/ValSelector";
 //Types
 
 //Styled Components
@@ -38,15 +43,6 @@ const itemData = [
 ];
 //Module
 const NewEvent = () => {
-  const [value, setValue] = useState<DateValueType | null>({
-    startDate: new Date(),
-    endDate: new Date(),
-  });
-
-  const handleValueChange = (newValue: DateValueType) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
-  };
   const handleMaximumText = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -78,18 +74,17 @@ const NewEvent = () => {
               id="input-with-sx"
               label="Subtitle (optional)"
               variant="standard"
-              helperText="Moer information about this post. Length: 0 - 50 characters."
+              helperText="More information about this post. Length: 0 - 50 characters."
             />
           </Box>
         </FieldWrapper>
         <FieldWrapper>
           <Box sx={{ display: "flex", alignItems: "flex-end" }}>
             <DescriptionRoundedIcon
-              sx={{ color: "action.active", mr: 1, mb: 4.0 }}
+              sx={{ color: "action.active", mr: 1, mb: 4.3 }}
             />
             <EventTagPicker />
           </Box>
-
           <label className="text-xs text-gray-500 pl-8">
             Tags for this event. 1 tag at least.
           </label>
@@ -105,21 +100,11 @@ const NewEvent = () => {
             <DatePicker title="End Time" />
           </div>
         </FieldWrapper>
-        <FieldWrapper className="flex justify-center">
-          <IconButton
-            color="primary"
-            aria-label="set location"
-            component="label"
-          >
-            <Tooltip title="Address of the event." arrow>
-              <LocationOnOutlinedIcon sx={{ fontSize: 30 }} />
-            </Tooltip>
-          </IconButton>
-        </FieldWrapper>
         <FieldWrapper>
 
-        <LocationPicker />
+          <LocationPicker/>
         </FieldWrapper>
+
         <FieldWrapper className="flex  flex-col justify-center items-center">
           <IconButton
             color="primary"
