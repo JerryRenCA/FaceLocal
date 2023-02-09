@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import tw from "tailwind-styled-components";
 import { authContext } from "../../contexts/authContext/AuthProvider";
-import LocationBox from "../locationbox/LocationBox";
 import SearchBox from "../searchbox/SearchBox";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
@@ -11,6 +10,8 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import { Avatar, Button, ButtonGroup, IconButton, Tooltip } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import ScreenLocPicker from "../shared/fullScreenLocationPicker/ScreenLocPicker";
 //Style Components
 const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
 const Wrapper = tw.div`flex gap-4 justify-between w-[60rem] my-4  items-center`;
@@ -24,7 +25,7 @@ const Navbar = () => {
           <Link to="/">StoreForm</Link>
         </LogoTag>
         <SearchBox />
-        <LocationBox />
+        <ScreenLocPicker />
         <LinkBox />
       </Wrapper>
     </Container>
@@ -70,8 +71,15 @@ const LinkBox = () => {
             </Link>
           </Button>
           <Button>
+            <Link to="/" className="  hover:text-purple-500 ">
+              <Tooltip title='Home' arrow>
+              <HomeOutlinedIcon />
+              </Tooltip> 
+            </Link>
+          </Button>
+          <Button>
             <Link to="/event/post" className="  hover:text-purple-500 ">
-              <Tooltip title='Post new event' arrow>
+              <Tooltip title='Post' arrow>
               <FileUploadOutlinedIcon />
               </Tooltip>
             </Link>
