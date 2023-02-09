@@ -14,7 +14,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ScreenLocPicker from "../shared/fullScreenLocationPicker/ScreenLocPicker";
 //Style Components
 const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
-const Wrapper = tw.div`flex gap-4 justify-between w-[60rem] my-4  items-center`;
+const Wrapper = tw.div`flex gap-4 justify-between  my-4  items-center`;
 const LogoTag = tw.div`text-3xl font-satisfy font-extrabold text-blue-900 `;
 //Module
 const Navbar = () => {
@@ -22,7 +22,7 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <LogoTag style={{ textShadow: "#069 1px 0 10px" }}>
-          <Link to="/">StoreForm</Link>
+          <Link to="/">StoreForm - in CI/DI ing</Link>
         </LogoTag>
         <SearchBox />
         <ScreenLocPicker />
@@ -85,7 +85,7 @@ const LinkBox = () => {
             </Link>
           </Button>
           <Button onClick={handleLogout} className="  hover:text-purple-500 ">
-          <Tooltip title='Exit' arrow>
+          <Tooltip title='Logout' arrow>
             <LogoutOutlinedIcon />
             </Tooltip>
           </Button>

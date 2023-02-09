@@ -4,7 +4,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Button } from "@mui/material";
 
 //Style Components
-const Container = tw.div`border-2 grow rounded-md pl-1 flex overflow-hidden  bg-white text-black`;
+const Container = tw.div` border-2 grow rounded-md pl-1 flex overflow-hidden  bg-white text-black`;
 const SearchBtn = tw.div` `;
 //module
 const SearchBox = () => {

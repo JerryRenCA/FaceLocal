@@ -32,7 +32,7 @@ export default function ScreenLocPicker() {
         <div className="w-[80vw] h-[80vh]">
           <MapContainer
             style={{ height: "80vh" }}
-            center={[51.505, -0.09]}
+            center={[44.651070, -63.582687]}
             zoom={13}
             scrollWheelZoom={false}
           >
@@ -40,7 +40,7 @@ export default function ScreenLocPicker() {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[51.505, -0.09]}>
+            <Marker position={[44.651070, -63.582687]}>
               <Popup>
                 Halifax. <br /> A beautiful city.
               </Popup>
