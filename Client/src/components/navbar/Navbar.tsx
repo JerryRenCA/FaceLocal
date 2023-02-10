@@ -22,7 +22,7 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <LogoTag style={{ textShadow: "#069 1px 0 10px" }}>
-          <Link to="/">StoreForm - in CI/DI ing</Link>
+          <Link to="/">StoreForm - in CI/CD ing</Link>
         </LogoTag>
         <SearchBox />
         <ScreenLocPicker />

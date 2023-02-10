@@ -1,6 +1,7 @@
 import { AccountCircle, PhotoCamera } from "@mui/icons-material";
 import {
   Box,
+  Button,
   FormControl,
   IconButton,
   ImageList,
@@ -18,16 +19,19 @@ import TitleRoundedIcon from "@mui/icons-material/TitleRounded";
 import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import { DateValueType } from "react-tailwindcss-datepicker/dist/types";
+import SendIcon from '@mui/icons-material/Send';
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+
 import DatePicker from "../../components/shared/datePicker/DatePicker";
 import EventTagPicker from "../../components/shared/eventTagPicker/EventTagPicker";
 import LocationPicker from "../../components/shared/locationPicker/LocationPicker";
 import ValSelector from "../../components/shared/valSelector/ValSelector";
+import { lightBlue } from "@mui/material/colors";
 //Types
 
 //Styled Components
 const Container = tw.div`flex justify-center items-center`;
-const Form = tw.form`w-[30rem] border-2 my-8 min-h-[30rem] rounded-lg`;
+const Form = tw.form`w-[35rem] border-2 my-8 min-h-[30rem] rounded-lg`;
 const Title = tw.div`m-4 text-center text-3xl font-playfair `;
 const FieldWrapper = tw.div`m-4`;
 
@@ -92,7 +96,7 @@ const NewEvent = () => {
 
         <FieldWrapper>
           <div>
-            <DatePicker />
+            <DatePicker title="Start Time" />
           </div>
         </FieldWrapper>
         <FieldWrapper>
@@ -101,8 +105,7 @@ const NewEvent = () => {
           </div>
         </FieldWrapper>
         <FieldWrapper>
-
-          <LocationPicker/>
+          <LocationPicker />
         </FieldWrapper>
 
         <FieldWrapper className="flex  flex-col justify-center items-center">
@@ -116,7 +119,7 @@ const NewEvent = () => {
               <PhotoCamera />
             </Tooltip>
           </IconButton>
-          <div className=" w-4/5">
+          <div className=" w-full">
             <ImageList cols={2}>
               {itemData.map((item) => (
                 <ImageListItem key={item.img}>
@@ -132,12 +135,7 @@ const NewEvent = () => {
           </div>
         </FieldWrapper>
         <FieldWrapper>
-          {/* <DateTimePicker
-          label="Date&Time picker"
-          value={Date.now()}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
+          <Button fullWidth variant="contained"  endIcon={<FileUploadOutlinedIcon />}>Submit</Button>
         </FieldWrapper>
       </Form>
     </Container>

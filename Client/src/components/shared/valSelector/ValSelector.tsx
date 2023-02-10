@@ -37,7 +37,7 @@ const ValSelector = ({
         sx={{textAlign:"center"}}
       >
         {subTitles.map((it, id) => (
-          <MenuItem value={id} sx={{ fontSize: 15 }}>
+          <MenuItem key={id} value={id} sx={{ fontSize: 15 }}>
             {it}
           </MenuItem>
         ))}

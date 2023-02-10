@@ -21,8 +21,8 @@ const LocationPicker = () => {
       </Box>
       <div className=" mt-[-8px]">
       <MapContainer
-        style={{ height: "20rem"}}
-        center={[51.505, -0.09]}
+        style={{ height:"20rem",width:''}}
+        center={[44.651070, -63.582687]}
         zoom={13}
         scrollWheelZoom={false}
       >
@@ -30,9 +30,9 @@ const LocationPicker = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
+        <Marker position={[44.651070, -63.582687]} draggable autoPanOnFocus>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            Halifax. <br /> A beautiful city.
           </Popup>
         </Marker>
       </MapContainer>
