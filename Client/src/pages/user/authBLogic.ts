@@ -1,4 +1,4 @@
-import { Login } from "@mui/icons-material";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,28 +9,27 @@ import {
   getDoc,
   serverTimestamp,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import validatorjs from "validator";
-import { validateUserInfo_email, validateUserInfo_name, validateUserInfo_password, validateUserInfo_rePassword } from "../../components/shared/fieldContent/FieldValidate";
+import {
+  validateUserInfo_email,
+  validateUserInfo_name,
+  validateUserInfo_password,
+  validateUserInfo_rePassword,
+} from "../../viewModel/user/userValidate";
 import { T_userLocalStorage } from "../../contexts/authContext/AuthProvider";
 import { auth, db } from "../../database/firebase";
+import { default_userCollection, T_userCollection,USERCOLLECTION } from "../../database/hdlUser";
+import { T_userInfoRegister } from "../../viewModel/user/userModel";
 
 // types
 
-export const USERCOLLECTION = "users";
-export type T_userInfo = {
-  name: string;
-  email: string;
-  password: string;
-  rePassword: string;
-};
-type T_userCollection = {
-  name: string;
-  createdAt: Date;
-};
 
-
-export const login = async (userInfo: T_userInfo):Promise<T_userLocalStorage> => {
+//Functions
+export const login = async (
+  userInfo: T_userInfoRegister
+): Promise<T_userLocalStorage> => {
   try {
     const userCredential: UserCredential = await signInWithEmailAndPassword(
       auth,
@@ -39,16 +38,20 @@ export const login = async (userInfo: T_userInfo):Promise<T_userLocalStorage> =>
     );
     const docRef = doc(db, USERCOLLECTION, userCredential.user.uid);
     const userCollectionItem = await getDoc(docRef);
-    const dataget=userCollectionItem.data() as unknown as T_userCollection
+    const dataget = userCollectionItem.data() as unknown as T_userCollection;
 
-    return { uid: userCredential.user.uid, name: dataget.name };
+    return {
+
+      userCredential:userCredential,
+      userCollection: dataget
+    };
   } catch (err) {
-    return { uid: "", name: "" };
+    return {  userCollection: default_userCollection,userCredential:null };
   }
 };
 
 export const register = async (
-  userInfo: T_userInfo
+  userInfo: T_userInfoRegister
 ): Promise<T_userLocalStorage> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -56,12 +59,21 @@ export const register = async (
       userInfo.email,
       userInfo.password
     );
-    await setDoc(doc(db, USERCOLLECTION, userCredential.user.uid), {
+    const k=serverTimestamp()
+    const newUserCollection:T_userCollection={
+      ...default_userCollection,
       name: userInfo.name,
       createdAt: serverTimestamp(),
-    });
-    return { uid: userCredential.user.uid, name: userInfo.name };
+    }
+  
+    await setDoc(doc(db, USERCOLLECTION, userCredential.user.uid), newUserCollection);
+    return {
+      userCredential:userCredential,
+      userCollection: newUserCollection,
+    };
   } catch {
-    return { uid: "", name: "" };
+    return {  userCollection: default_userCollection,userCredential:null };
   }
 };
+
+

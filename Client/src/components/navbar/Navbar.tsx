@@ -8,10 +8,18 @@ import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { Avatar, Button, ButtonGroup, IconButton, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  ButtonGroup,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import ScreenLocPicker from "../shared/fullScreenLocationPicker/ScreenLocPicker";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import ScreenLocPicker from "../shared/screenLocationPicker/ScreenLocPicker";
+import PopupMenu from "../shared/popupMenu/PopupMenu";
+import PopupProfileMenu from "./components/PopupProfileMenu";
 //Style Components
 const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
 const Wrapper = tw.div`flex gap-4 justify-between  my-4  items-center`;
@@ -39,24 +47,19 @@ const LinkBox = () => {
   const handleLogout = () => {
     authCxt.logout();
   };
+  console.log(authCxt.state.isLogin);
   return (
     <div>
       {!authCxt.state.isLogin && (
         <>
           <ButtonGroup variant="text" aria-label="text button group">
             <Button>
-              <Link
-                to="register"
-                className="  hover:text-purple-500 font-bold"
-              >
+              <Link to="register" className="  hover:text-purple-500 font-bold">
                 Register
               </Link>
             </Button>
             <Button>
-              <Link
-                to="login"
-                className="  hover:text-purple-500 font-bold"
-              >
+              <Link to="login" className="  hover:text-purple-500 font-bold">
                 Sign In
               </Link>
             </Button>
@@ -65,28 +68,27 @@ const LinkBox = () => {
       )}
       {authCxt.state.isLogin && (
         <ButtonGroup variant="text" aria-label="text button group">
-          <Button>
-            <Link to="/user/profile" className="  hover:text-purple-500 ">
-              <Avatar sx={{ bgcolor: deepPurple[500],width: 28, height: 28 }}>{authCxt.state.user.name[0]}</Avatar>
-            </Link>
-          </Button>
+          <PopupProfileMenu
+            profileIcon={authCxt.state.user.userCollection.profileIcon}
+            name={authCxt.state.user.userCollection.name}
+          />
           <Button>
             <Link to="/" className="  hover:text-purple-500 ">
-              <Tooltip title='Home' arrow>
-              <HomeOutlinedIcon />
-              </Tooltip> 
+              <Tooltip title="Home" arrow>
+                <HomeOutlinedIcon />
+              </Tooltip>
             </Link>
           </Button>
           <Button>
             <Link to="/event/post" className="  hover:text-purple-500 ">
-              <Tooltip title='Post' arrow>
-              <FileUploadOutlinedIcon />
+              <Tooltip title="Post" arrow>
+                <FileUploadOutlinedIcon />
               </Tooltip>
             </Link>
           </Button>
           <Button onClick={handleLogout} className="  hover:text-purple-500 ">
-          <Tooltip title='Logout' arrow>
-            <LogoutOutlinedIcon />
+            <Tooltip title="Logout" arrow>
+              <LogoutOutlinedIcon />
             </Tooltip>
           </Button>
         </ButtonGroup>

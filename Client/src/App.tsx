@@ -9,8 +9,10 @@ import { auth } from "./database/firebase"
 import ListEvent from "./pages/event/ListEvent"
 import NewEvent from "./pages/event/NewEvent"
 import Home from "./pages/home/Home"
-import Register from "./pages/user/Register"
-import Signin from "./pages/user/Signin"
+import Profile from "./pages/profile/Profile"
+import PasswordChange from "./pages/user/PasswordChange"
+import RegisterPanel from "./pages/user/RegisterPanel"
+import Signin from "./pages/user/SigninPanel"
 
 function App() {
   const userCtx=useContext(authContext)
@@ -18,10 +20,9 @@ function App() {
   console.log('len:',localStorage.length)
 
   useEffect(()=>{
-
     localStorage.setItem(USERLOCALSTORAGE,JSON.stringify(userCtx.state.user))
-
-  },[userCtx.state.user])
+    console.log(userCtx.state.user.userCollection)
+  },[userCtx.state])
   
   return (
     <div className="">
@@ -32,8 +33,9 @@ function App() {
         <Route path='/'>
           <Route index element={<Home/>}/>
           <Route path="login" element={<Signin/>}/>
-          <Route path="register" element={<Register/>}/>
-          <Route path="user/profile" element={<Home/>}/>
+          <Route path="register" element={<RegisterPanel/>}/>
+          <Route path="user/profile" element={<Profile/>}/>
+          <Route path="user/password" element={<PasswordChange/>}/>
         </Route>
         <Route path='/event'>
           <Route index element={<ListEvent/>}/>

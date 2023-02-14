@@ -13,7 +13,7 @@ const SearchBox = () => {
       <SearchOutlinedIcon className="my-auto " />
       <input type="text" className="grow outline-none px-3" />
       <SearchBtn>
-        <Button variant="contained" endIcon={<SearchOutlinedIcon />}>
+        <Button variant="contained">
           Search
         </Button>
       </SearchBtn>

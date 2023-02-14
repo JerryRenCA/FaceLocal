@@ -1,30 +1,37 @@
+import { UserCredential } from "firebase/auth";
 import { createContext, useReducer } from "react";
+import {
+  default_userCollection,
+  T_userCollection,
+} from "../../database/hdlUser";
 
 export const USERLOCALSTORAGE = "userAuthInfo";
 
 export type T_userLocalStorage = {
-  uid: string;
-  name: string;
+
+  userCredential: UserCredential | null;
+  userCollection: T_userCollection;
 };
-const default_userLocalStorage = {
-  uid: "",
-  name: "",
+export const default_userLocalStorage: T_userLocalStorage = {
+  userCredential: null,
+  userCollection: default_userCollection,
 };
 type T_authState = {
   user: T_userLocalStorage;
   isLogin: boolean;
 };
 
-const default_authState = (): T_authState => {
+export const default_authState = (): T_authState => {
   const val = localStorage.getItem(USERLOCALSTORAGE) as string;
-  const user = JSON.parse(val);
-  if (user) return { user, isLogin: user.uid !== "" };
+  const userLocalS = JSON.parse(val);
+  if (userLocalS&&userLocalS.userCredential) return { user: userLocalS, isLogin: userLocalS.uid !== "" };
   else return { user: default_userLocalStorage, isLogin: false };
 };
 
 enum AuthActionType {
   LOGIN,
   LOGOUT,
+  UPDATE,
 }
 
 type T_authReducerActionWithPayload = {
@@ -43,11 +50,18 @@ const authReducer = (
     case AuthActionType.LOGIN: {
       if (authReducerActionWithPayload.payload) {
         const val = JSON.stringify(authReducerActionWithPayload.payload);
-        return { user: authReducerActionWithPayload.payload, isLogin: true };
+        return { user: {...authReducerActionWithPayload.payload}, isLogin: true };
+      } else throw new Error("No user info in payload");
+    }
+    case AuthActionType.UPDATE: {
+      if (authReducerActionWithPayload.payload) {
+        const val = JSON.stringify(authReducerActionWithPayload.payload);
+        return { user: {...authReducerActionWithPayload.payload}, isLogin: true };
       } else throw new Error("No user info in payload");
     }
     default: {
-      return { user: default_userLocalStorage, isLogin: false };
+      
+      return { user: {...default_userLocalStorage}, isLogin: false };
     }
   }
 };
@@ -61,7 +75,13 @@ const useAuthContext = (authState: T_authState) => {
       authActionType: AuthActionType.LOGOUT,
       payload: default_userLocalStorage,
     });
-  return { state, dispatch, login, logout };
+  const update = (userInfo: T_userLocalStorage) =>
+    dispatch({
+      authActionType: AuthActionType.UPDATE,
+      payload: userInfo,
+    });
+    
+  return { state, dispatch, login, logout, update };
 };
 
 type T_authContext = ReturnType<typeof useAuthContext>;
@@ -71,6 +91,7 @@ const default_authContext: T_authContext = {
   dispatch: () => {},
   login: () => {},
   logout: () => {},
+  update: () => {},
 };
 
 export const authContext = createContext<T_authContext>(default_authContext);

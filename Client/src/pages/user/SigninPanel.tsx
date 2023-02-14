@@ -9,43 +9,22 @@ import FieldContentTag, {
 import validatorjs from "validator";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { login, T_userInfo } from "./authBLogic";
+import { login } from "./authBLogic";
 import { authContext } from "../../contexts/authContext/AuthProvider";
+import {
+  default_userInfoRegister,
+  T_userInfoRegister,
+  userFieldsLogin,
+} from "../../viewModel/user/userModel";
 
 const Container = tw.div`py-4`;
 const Wrapper = tw.div`py-4 mx-auto w-[45rem] border-2 rounded-lg px-6 pt-12 bg-white text-black`;
-const fields: T_fieldContent[] = [
-  {
-    fieldname: "email",
-    fieldInfo: "",
-    fieldErr: [],
-    fieldVisibleSettable: false,
-    icon: EmailIcon,
-    updateField: <T extends T_fieldBase>(prev: T, newVal: string): T => {
-      return { ...prev, email: newVal };
-    },
-    validateField: (val: string) => validatorjs.isEmail(val),
-  },
-  {
-    fieldname: "password",
-    fieldInfo: "",
-    fieldErr: [],
-    fieldVisibleSettable: true,
-    icon: LockIcon,
-    updateField: <T extends T_fieldBase>(prev: T, newVal: string): T => {
-      return { ...prev, password: newVal };
-    },
-    validateField: (val: string) => true,
-  },
-];
+
 //Module
 const Signin = () => {
-  const [userInfo, setUserInfo] = useState<T_userInfo>({
-    name: "",
-    email: "",
-    password: "",
-    rePassword: "",
-  });
+  const [userInfo, setUserInfo] = useState<T_userInfoRegister>(
+    default_userInfoRegister
+  );
   const [loginErr, setLoginErr] = useState(false);
   const navigator = useNavigate();
   const authCtx = useContext(authContext);
@@ -53,7 +32,7 @@ const Signin = () => {
     e.preventDefault();
     const loginRzlt = await login(userInfo);
     console.log("login:", loginRzlt);
-    if (loginRzlt.uid) {
+    if (loginRzlt.userCredential?.user) {
       authCtx.login(loginRzlt);
       navigator("/");
     } else setLoginErr(true);
@@ -63,7 +42,7 @@ const Signin = () => {
       <Wrapper>
         <form onSubmit={handleLogin}>
           <div className="text-3xl">Login</div>
-          {fields.map((fieldContent, id) => {
+          {userFieldsLogin.map((fieldContent, id) => {
             return (
               <FieldContentTag
                 key={fieldContent.fieldname}
@@ -79,12 +58,19 @@ const Signin = () => {
             </div>
           )}
           <div>
+            <label
+              htmlFor="keepsignin"
+              className="pl-4 align-middle block text-sm pb-4 text-blue-400"
+            >
+              Test User: 'online2jerry@gmail.com'; Pwd: '####Ab12'
+            </label>
             <input
               type="checkbox"
               name=""
               id="keepsignin"
               className="w-4 h-4 ml-4 align-middle"
             />
+
             <label htmlFor="keepsignin" className="pl-2 align-middle">
               Keep me signed in
             </label>

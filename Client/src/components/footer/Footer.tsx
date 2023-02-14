@@ -32,8 +32,8 @@ const Footer = () => {
         <ColItem>Advertise</ColItem>
         </ColTag>
         <ColTag>
-        <ColTitle>StoreForm</ColTitle>
-        <ColItem>About</ColItem>
+        <ColTitle>Thanks</ColTitle>
+        <ColItem><a href="https://icons8.com/">ICONS8</a></ColItem>
         <ColItem>Join Us</ColItem>
         <ColItem>Membership</ColItem>
         <ColItem>Advertise</ColItem>
