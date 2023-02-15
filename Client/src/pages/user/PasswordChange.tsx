@@ -1,33 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import tw from "tailwind-styled-components";
-import FieldContentTag, {
-  T_fieldBase,
-  T_fieldContent,
-} from "../../components/shared/fieldContent/FieldContent";
+import FieldContentTag from "../../components/shared/fieldContent/FieldContent";
 import { authContext } from "../../contexts/authContext/AuthProvider";
 
-import {
-  validateUserInfo_email,
-  validateUserInfo_name,
-  validateUserInfo_password,
-  validateUserInfo_rePassword,
-} from "../../viewModel/user/userValidate";
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
 import {
   default_userInfoRegister,
   T_userInfoRegister,
   userFieldsPasswordChange,
-  validateUserInfo,
   validateUserInfoForPasswordChange,
 } from "../../viewModel/user/userModel";
 import {
-  register,
   testPassword,
+  updateAuthPassword,
   updateUserProfile,
 } from "../../database/hdlUser";
+import { useSnackbar } from "notistack";
 
 // Types
 // Styled Components
@@ -47,15 +35,26 @@ const PasswordChange = () => {
   }, [userInfo]);
   const navigator = useNavigate();
   const userAuthCtx = useContext(authContext);
+  const { enqueueSnackbar } = useSnackbar();
   //submit
   const handleSubmit = async () => {
     if (userAuthCtx.state.user.userCredential) {
       const testOldPassword = await testPassword(userInfo); //test oldpassword, then update to new password
-      console.log("test old P", testOldPassword);
-      updateUserProfile(userAuthCtx.state.user.userCredential.user.uid,'password',userInfo.password)
+      if(!testOldPassword){
+        enqueueSnackbar("Old Password Wrong!", { variant: "error" });
+        return
+      }
+      const rzlt= await updateAuthPassword(userInfo.password)
+      if(rzlt){
+        enqueueSnackbar("Change password successfully!", { variant: "success" });
+        navigator('/')
+      }else{
+        enqueueSnackbar("Change password fail!", { variant: "error" });
+      }
     }
   };
-  if (userAuthCtx.state.user.userCredential) { // set initial email
+  // set initial email
+  if (userAuthCtx.state.user.userCredential) { 
     userFieldsPasswordChange[0].valSet =
       userAuthCtx.state.user.userCredential.user.email;
   }

@@ -27,6 +27,8 @@ export type T_fieldContent = {
 const FieldTag = tw.div`border-[1px] h-14 rounded-lg flex items-center justify-between p-1`;
 const InputTag = tw.input`grow outline-none`;
 //Module
+//Description
+//A component implement datafield input/validate/stateUpdate
 const FieldContentTag = <T extends T_fieldBase>({
   fieldContent,
   userInfo,
@@ -67,7 +69,6 @@ const FieldContentTag = <T extends T_fieldBase>({
       );
     }
     if (inputRef.current && fieldContent.valSet) {
-      // console.log(fieldContent.valSet)
       inputRef.current.value = fieldContent.valSet;
     }
   }, [userInfo]);

@@ -1,7 +1,10 @@
-
+import { async } from "@firebase/util";
 import {
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   signInWithEmailAndPassword,
+  updatePassword,
   updateProfile,
   UserCredential,
 } from "firebase/auth";
@@ -59,9 +62,28 @@ export const updateUserProfile = async (
   const key = fieldName as keyof T_userProfile;
   const obj: any = {};
   obj[key] = val;
-  if (auth.currentUser) await updateProfile(auth.currentUser, obj);
+  try {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, obj);
+      console.log("obj", obj);
+    }
+  } catch (err) {
+    console.log("update UserProfile", err);
+  }
 };
+// update Password
+export const updateAuthPassword= async(newPass:string)=>{
+  if(auth.currentUser){
+    try{
+      await updatePassword(auth.currentUser,newPass)
+      return true
+    }
+    catch{
+      return false
+    }
+  }
 
+}
 // login module
 export const login = async (
   userInfo: T_userInfoRegister
@@ -116,12 +138,20 @@ export const register = async (
 };
 
 //test password
-export const testPassword = async (userInfo:T_userInfoRegister):Promise<boolean> => {
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    userInfo.email,
-    userInfo.oldPassword
-  );
-  console.log(userCredential)
-  return userCredential===undefined
+export const testPassword = async (
+  userInfo: T_userInfoRegister
+): Promise<boolean> => {
+  if (auth.currentUser?.email) {
+    const credential = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      userInfo.oldPassword
+    );
+    const result = await reauthenticateWithCredential(
+      auth.currentUser,
+      credential
+    );
+    console.log(result);
+    return result.user.uid != "";
+  }
+  return false;
 };
