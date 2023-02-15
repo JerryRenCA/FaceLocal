@@ -8,7 +8,6 @@ import {
 export const USERLOCALSTORAGE = "userAuthInfo";
 
 export type T_userLocalStorage = {
-
   userCredential: UserCredential | null;
   userCollection: T_userCollection;
 };
@@ -31,15 +30,12 @@ export const default_authState = (): T_authState => {
 enum AuthActionType {
   LOGIN,
   LOGOUT,
-  UPDATE,
+  UPDATE, // update userCollection
 }
 
 type T_authReducerActionWithPayload = {
   authActionType: AuthActionType;
   payload?: T_userLocalStorage;
-};
-const default_authReducerActionWithPayload: T_authReducerActionWithPayload = {
-  authActionType: AuthActionType.LOGIN,
 };
 
 const authReducer = (
@@ -49,25 +45,24 @@ const authReducer = (
   switch (authReducerActionWithPayload.authActionType) {
     case AuthActionType.LOGIN: {
       if (authReducerActionWithPayload.payload) {
-        const val = JSON.stringify(authReducerActionWithPayload.payload);
+        // const val = JSON.stringify(authReducerActionWithPayload.payload);
         return { user: {...authReducerActionWithPayload.payload}, isLogin: true };
       } else throw new Error("No user info in payload");
     }
     case AuthActionType.UPDATE: {
       if (authReducerActionWithPayload.payload) {
-        const val = JSON.stringify(authReducerActionWithPayload.payload);
+        // const val = JSON.stringify(authReducerActionWithPayload.payload);
         return { user: {...authReducerActionWithPayload.payload}, isLogin: true };
       } else throw new Error("No user info in payload");
     }
     default: {
-      
       return { user: {...default_userLocalStorage}, isLogin: false };
     }
   }
 };
 
 const useAuthContext = (authState: T_authState) => {
-  const [state, dispatch] = useReducer(authReducer, authState);
+  const [state, dispatch] = useReducer(authReducer, authState);// here the state includes all state about user.
   const login = (userInfo: T_userLocalStorage) =>
     dispatch({ authActionType: AuthActionType.LOGIN, payload: userInfo });
   const logout = () =>
@@ -80,7 +75,6 @@ const useAuthContext = (authState: T_authState) => {
       authActionType: AuthActionType.UPDATE,
       payload: userInfo,
     });
-    
   return { state, dispatch, login, logout, update };
 };
 

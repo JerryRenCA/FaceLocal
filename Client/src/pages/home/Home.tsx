@@ -1,10 +1,7 @@
-import React from "react";
 import tw from "tailwind-styled-components";
 import Banner from "../../components/banner/Banner";
 import LeftSidePanel from "../../components/leftSidePanel/LeftSidePanel";
 import MainPanel from "../../components/mainPanel/MainPanel";
-import Navbar from "../../components/navbar/Navbar";
-import Notification from "../../components/notification/Notification";
 import RightSidePanel from "../../components/rightSidePanel/RightSidePanel";
 import SelectorBar from "../../components/selectorBar/SelectorBar";
 
@@ -15,8 +12,8 @@ const MainWrapper = tw.div`grid grid-cols-10 w-4/5`;
 const Home = () => {
   return (
     <Container>
-      <Banner/>
-      <SelectorBar/>
+      <Banner />
+      <SelectorBar />
       <div className="flex justify-center">
         <MainWrapper>
           <LeftSidePanel />
@@ -26,7 +23,6 @@ const Home = () => {
           <RightSidePanel />
         </MainWrapper>
       </div>
-      
     </Container>
   );
 };

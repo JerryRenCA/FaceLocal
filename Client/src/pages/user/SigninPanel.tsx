@@ -1,12 +1,6 @@
 import React, { useContext, useState } from "react";
 import tw from "tailwind-styled-components";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
-import FieldContentTag, {
-  T_fieldBase,
-  T_fieldContent,
-} from "../../components/shared/fieldContent/FieldContent";
-import validatorjs from "validator";
+import FieldContentTag from "../../components/shared/fieldContent/FieldContent";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { authContext } from "../../contexts/authContext/AuthProvider";

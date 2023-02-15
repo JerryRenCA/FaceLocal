@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import tw from "tailwind-styled-components";
 import { authContext } from "../../contexts/authContext/AuthProvider";
@@ -14,13 +14,15 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ScreenLocPicker from "../shared/screenLocationPicker/ScreenLocPicker";
 import PopupProfileMenu from "./components/PopupProfileMenu";
 //Style Components
-const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
+const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 fixed w-screen bg-white z-[1002]`;
 const Wrapper = tw.div`flex gap-4 justify-between  my-4  items-center`;
 const LogoTag = tw.div`text-3xl font-satisfy font-extrabold text-blue-900 `;
 //Module
 const Navbar = () => {
+  
   return (
-    <Container>
+    <>
+    <Container >
       <Wrapper>
         <LogoTag style={{ textShadow: "#069 1px 0 10px" }}>
           <Link to="/">StoreForm - in CI/CD ing</Link>
@@ -30,9 +32,12 @@ const Navbar = () => {
         <LinkBox />
       </Wrapper>
     </Container>
+    <Container className="relative h-[4.4rem] -z-10" >
+
+    </Container>
+    </>
   );
 };
-export default Navbar;
 
 //component for some link buttons, register,login,logout,
 const LinkBox = () => {
@@ -88,3 +93,6 @@ const LinkBox = () => {
     </div>
   );
 };
+
+export default Navbar;
+

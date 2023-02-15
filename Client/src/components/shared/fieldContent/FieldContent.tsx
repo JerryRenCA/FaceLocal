@@ -9,8 +9,8 @@ import {
   ValidateRePassword,
 } from "../../../viewModel/user/userValidate";
 
-// types
-export type T_fieldBase = { name: string };
+// NOTE: types
+export interface T_fieldBase  { name: string };
 export type T_fieldContent = {
   fieldname: string; // key of T, used for the corresponded field
   fieldTitle: string; //  label text
@@ -23,12 +23,13 @@ export type T_fieldContent = {
   updateField: <T extends T_fieldBase>(prev: T, newVal: string) => T; // setState function
   validateField: (val: string) => boolean; //validate function
 };
-//Another Module Component - Name
+// NOTE: Another Module Component - Name
 const FieldTag = tw.div`border-[1px] h-14 rounded-lg flex items-center justify-between p-1`;
 const InputTag = tw.input`grow outline-none`;
-//Module
-//Description
-//A component implement datafield input/validate/stateUpdate
+// NOTE: Module
+// NOTE: Description
+// NOTE: this component implement datafield input/validate/stateUpdate
+//
 const FieldContentTag = <T extends T_fieldBase>({
   fieldContent,
   userInfo,

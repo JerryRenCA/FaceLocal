@@ -1,19 +1,9 @@
 import React, { createRef, useContext, useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components";
-import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
-import FieldContent, {
-  T_fieldBase,
-  T_fieldContent,
-} from "../../components/shared/fieldContent/FieldContent";
 import FieldContentTag from "../../components/shared/fieldContent/FieldContent";
-
 import { Link } from "react-router-dom";
-import { authContext, default_userLocalStorage, T_userLocalStorage } from "../../contexts/authContext/AuthProvider";
-import { validateUserInfo_email, validateUserInfo_name, validateUserInfo_password, validateUserInfo_rePassword } from "../../viewModel/user/userValidate";
-import { UserCredential } from "firebase/auth";
+import { authContext} from "../../contexts/authContext/AuthProvider";
 import { default_userInfoRegister, T_userInfoRegister, userFieldsRegister, validateUserInfo } from "../../viewModel/user/userModel";
 import { register } from "../../database/hdlUser";
 

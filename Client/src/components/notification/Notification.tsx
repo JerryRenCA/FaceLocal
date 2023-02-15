@@ -7,7 +7,7 @@ const InfoTag=tw.div`grow text-center`
 const CloseBtn=tw.button` mr-4 hover:text-white`
 //Module
 const Notification = () => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   return (
     <Container>
       {visible && (
