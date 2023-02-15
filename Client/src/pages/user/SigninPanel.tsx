@@ -9,13 +9,13 @@ import FieldContentTag, {
 import validatorjs from "validator";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { login } from "./authBLogic";
 import { authContext } from "../../contexts/authContext/AuthProvider";
 import {
   default_userInfoRegister,
   T_userInfoRegister,
   userFieldsLogin,
 } from "../../viewModel/user/userModel";
+import { login } from "../../database/hdlUser";
 
 const Container = tw.div`py-4`;
 const Wrapper = tw.div`py-4 mx-auto w-[45rem] border-2 rounded-lg px-6 pt-12 bg-white text-black`;

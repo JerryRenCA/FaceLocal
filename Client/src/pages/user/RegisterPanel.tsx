@@ -11,11 +11,11 @@ import FieldContent, {
 import FieldContentTag from "../../components/shared/fieldContent/FieldContent";
 
 import { Link } from "react-router-dom";
-import { register} from "./authBLogic";
 import { authContext, default_userLocalStorage, T_userLocalStorage } from "../../contexts/authContext/AuthProvider";
 import { validateUserInfo_email, validateUserInfo_name, validateUserInfo_password, validateUserInfo_rePassword } from "../../viewModel/user/userValidate";
 import { UserCredential } from "firebase/auth";
 import { default_userInfoRegister, T_userInfoRegister, userFieldsRegister, validateUserInfo } from "../../viewModel/user/userModel";
+import { register } from "../../database/hdlUser";
 
 //Style Components
 const Container = tw.div`pt-4 py-4 `;

@@ -6,7 +6,7 @@ import FieldContentTag, {
   T_fieldContent,
 } from "../../components/shared/fieldContent/FieldContent";
 import { authContext } from "../../contexts/authContext/AuthProvider";
-import { register } from "./authBLogic";
+
 import {
   validateUserInfo_email,
   validateUserInfo_name,
@@ -21,7 +21,13 @@ import {
   T_userInfoRegister,
   userFieldsPasswordChange,
   validateUserInfo,
+  validateUserInfoForPasswordChange,
 } from "../../viewModel/user/userModel";
+import {
+  register,
+  testPassword,
+  updateUserProfile,
+} from "../../database/hdlUser";
 
 // Types
 // Styled Components
@@ -37,21 +43,22 @@ const PasswordChange = () => {
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [err, setErr] = useState(false);
   useEffect(() => {
-    setSubmitEnabled(validateUserInfo(userInfo));
+    setSubmitEnabled(validateUserInfoForPasswordChange(userInfo));
   }, [userInfo]);
   const navigator = useNavigate();
   const userAuthCtx = useContext(authContext);
+  //submit
   const handleSubmit = async () => {
-    const registerRzlt = await register(userInfo);
-    if (registerRzlt.userCredential?.user.uid) navigator("/");
-    else {
-      setErr(true);
+    if (userAuthCtx.state.user.userCredential) {
+      const testOldPassword = await testPassword(userInfo); //test oldpassword, then update to new password
+      console.log("test old P", testOldPassword);
+      updateUserProfile(userAuthCtx.state.user.userCredential.user.uid,'password',userInfo.password)
     }
-    userAuthCtx.login(registerRzlt);
   };
-  if (userAuthCtx.state.user.userCredential)
+  if (userAuthCtx.state.user.userCredential) { // set initial email
     userFieldsPasswordChange[0].valSet =
       userAuthCtx.state.user.userCredential.user.email;
+  }
   return (
     <Container>
       <Wrapper>

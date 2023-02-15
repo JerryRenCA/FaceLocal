@@ -13,8 +13,8 @@ const Container = tw.div``;
 // Functions
 // Module
 const PopupProfileMenu = ({
-  profileIcon,
-  name,
+  profileIcon, //avatar pic url
+  name,//user name, when avatar url is null, use user name.
 }: {
   profileIcon: string;
   name: string;

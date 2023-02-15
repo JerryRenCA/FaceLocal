@@ -3,22 +3,15 @@ import { Link } from "react-router-dom";
 import tw from "tailwind-styled-components";
 import { authContext } from "../../contexts/authContext/AuthProvider";
 import SearchBox from "../searchbox/SearchBox";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import {
-  Avatar,
   Button,
   ButtonGroup,
-  IconButton,
   Tooltip,
 } from "@mui/material";
-import { deepPurple } from "@mui/material/colors";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ScreenLocPicker from "../shared/screenLocationPicker/ScreenLocPicker";
-import PopupMenu from "../shared/popupMenu/PopupMenu";
 import PopupProfileMenu from "./components/PopupProfileMenu";
 //Style Components
 const Container = tw.div`flex justify-center border-b-[1px] border-gray-800 `;
@@ -41,13 +34,12 @@ const Navbar = () => {
 };
 export default Navbar;
 
+//component for some link buttons, register,login,logout,
 const LinkBox = () => {
   const authCxt = useContext(authContext);
-
   const handleLogout = () => {
     authCxt.logout();
   };
-  console.log(authCxt.state.isLogin);
   return (
     <div>
       {!authCxt.state.isLogin && (

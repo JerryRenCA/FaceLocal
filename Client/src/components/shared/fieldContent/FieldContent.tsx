@@ -67,7 +67,7 @@ const FieldContentTag = <T extends T_fieldBase>({
       );
     }
     if (inputRef.current && fieldContent.valSet) {
-      console.log(fieldContent.valSet)
+      // console.log(fieldContent.valSet)
       inputRef.current.value = fieldContent.valSet;
     }
   }, [userInfo]);

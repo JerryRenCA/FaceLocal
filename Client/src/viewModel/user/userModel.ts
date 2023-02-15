@@ -1,4 +1,8 @@
-import validatorjs from "validator";
+// view model for all user profile & collection operation
+// description
+// T_userInfoRegister is the type for all operation of user profile
+// T_fieldContent_? specfic T_fieldContent for name,email,password,repassword...
+//
 import {
   T_fieldBase,
   T_fieldContent,
@@ -27,6 +31,7 @@ export const default_userInfoRegister: T_userInfoRegister = {
   oldPassword:'',
   rePassword: "",
 };
+// fieldName for text input of name
 export const fieldName: T_fieldContent = {
   fieldname: "name",
   fieldTitle:'name',
@@ -41,6 +46,7 @@ export const fieldName: T_fieldContent = {
   },
   validateField: validateUserInfo_name,
 };
+// fieldEmail for text input of email
 export const fieldEmail: T_fieldContent = {
   fieldname: "email",
   fieldTitle:'email',
@@ -55,6 +61,7 @@ export const fieldEmail: T_fieldContent = {
   },
   validateField: validateUserInfo_email,
 };
+// fieldPassword for text input of password
 export const fieldPassword: T_fieldContent = {
   fieldname: "password",
   fieldTitle:'password',
@@ -69,6 +76,7 @@ export const fieldPassword: T_fieldContent = {
   },
   validateField: validateUserInfo_password,
 };
+
 export const fieldOldPassword: T_fieldContent = {
   fieldname: "oldPassword",
   fieldTitle:'OLd Password',
@@ -83,6 +91,7 @@ export const fieldOldPassword: T_fieldContent = {
   },
   validateField: validateUserInfo_password,
 };
+
 export const fieldRePassword: T_fieldContent = {
   fieldname: "rePassword",
   fieldTitle:'Comfirm Password',
@@ -98,6 +107,7 @@ export const fieldRePassword: T_fieldContent = {
   validateField: () => true,
 };
 
+//userFieldsRegister is the array for register form
 export const userFieldsRegister: T_fieldContent[] = [
   fieldName,
   fieldEmail,
@@ -112,15 +122,20 @@ export const validateUserInfo = (userInfo: T_userInfoRegister): boolean => {
     return false;
   return true;
 };
+//userFieldsLogin is the array for login form
 export const userFieldsLogin: T_fieldContent[] = [fieldEmail, fieldPassword];
-
-export type T_fieldsChangePassowrd={
-    name:string,
-
-}
+//userFieldsPasswordChange is the array for changepassword form
 export const userFieldsPasswordChange: T_fieldContent[] = [
   {...fieldEmail,readonly:true,fieldInfo:''},
   fieldOldPassword,
   {...fieldPassword,fieldTitle:'New Password'},
   fieldRePassword,
 ];
+export const validateUserInfoForPasswordChange = (userInfo: T_userInfoRegister): boolean => {
+  // if (!userFieldsPasswordChange[0].validateField(userInfo.name)) return false;
+  if (!userFieldsPasswordChange[1].validateField(userInfo.oldPassword)) return false;
+  if (!userFieldsPasswordChange[2].validateField(userInfo.password)) return false;
+  if (!validateUserInfo_rePassword(userInfo.password, userInfo.rePassword))
+    return false;
+  return true;
+};
